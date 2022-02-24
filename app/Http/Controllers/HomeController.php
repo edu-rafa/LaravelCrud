@@ -3,26 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Dicas;
+use App\TipoVeiculo;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function home(Request $request)
     {
-        $this->middleware('auth');
+        $keyword = $request->get('procurar');
+        $perPage = 25;
+        $dicas   = Dicas::PegaValoresFK($keyword, $perPage, NULL);
+
+        foreach($dicas as $dica) {
+
+            if( strlen($dica->dica) > 10 ) {
+                $dica->dica = substr($dica->dica, 0, 10) . '...';
+            }
+
+        }
+
+        if ( !empty($dica) ) {
+            return view('home', compact('dicas'));
+        } else {
+            return view('home');
+        }
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    public function detalhe($id)
     {
-        return view('home');
+        $dicas = Dicas::PegaDicaPeloID($id);
+        $dicas->tiposVeiculo = TipoVeiculo::get();
+
+        return view('crud.detalhe', compact('dicas'));
     }
 }

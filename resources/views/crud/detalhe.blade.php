@@ -7,9 +7,9 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Create New post</div>
+                    <div class="card-header"></div>
                     <div class="card-body">
-                        <a href="{{ url('/') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Voltar</button></a>
                         <br />
                         <br />
 
@@ -20,13 +20,7 @@
                                 @endforeach
                             </ul>
                         @endif
-
-                        <form method="POST" action="{{ url('/') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-
-                            @include ('directory.posts.form', ['formMode' => 'create'])
-
-                        </form>
+                         @include ('tips.form')
 
                     </div>
                 </div>

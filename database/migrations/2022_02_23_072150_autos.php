@@ -15,11 +15,11 @@ class Autos extends Migration
     {
         Schema::create('autos', function (Blueprint $table) {
             $table->increments('id_auto');
-            $table->string('brand');
-            $table->string('model');
-            $table->string('version');
-            $table->unsignedBigInteger('id_fk_auto_tp');
-            $table->foreign('id_fk_auto_tp')->references('id_auto_tp')->on('auto_type');
+            $table->string('marca');
+            $table->string('modelo');
+            $table->string('versao');
+            $table->unsignedBigInteger('id_fk_tpv');
+            $table->foreign('id_fk_tpv')->references('id_tpv')->on('tipo_veiculos');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class Autos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('autos');
+        Schema::dropIfExists('tipo_veiculos');
     }
 }

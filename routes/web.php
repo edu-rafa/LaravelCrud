@@ -11,10 +11,13 @@
 |
 */
 
-Route::get('/', 'PostsController@index');
-Route::get('/admin/posts/create', 'PostsController@create')->middleware('auth');
-Route::get('/admin/posts/edit/{id}', 'PostsController@edit')->middleware('auth');
-Route::patch('/admin/posts/update/{id}','PostsController@update')->middleware('auth');
-Route::delete('/admin/posts/destroy/{id}', 'PostsController@destroy')->middleware('auth');
+Route::get('/', 'HomeController@home');
+Route::get('/me', 'DicasController@index');
+Route::get('/admin/posts/show/{id}', 'HomeController@detalhe');
+Route::get('/admin/posts/create', 'DicasController@create');
+Route::post('/admin/posts/store','DicasController@store');
+Route::get('/admin/posts/edit/{id}', 'DicasController@edit');
+Route::patch('/admin/posts/update/{id}','DicasController@update');
+Route::delete('/admin/posts/destroy/{id}', 'DicasController@destroy');
 Auth::routes();
 

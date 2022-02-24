@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AutoType extends Migration
+class RecuperarSenha extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AutoType extends Migration
      */
     public function up()
     {
-        Schema::create('auto_type', function (Blueprint $table) {
-            $table->increments('id_auto_tp');
-            $table->string('type');
+        Schema::create('recuperar_senha', function (Blueprint $table) {
+            $table->string('email');
+            $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
     }
@@ -27,6 +27,6 @@ class AutoType extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auto_type');
+        Schema::dropIfExists('recuperar_senha');
     }
 }
