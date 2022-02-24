@@ -22,11 +22,7 @@ class HomeController extends Controller
 
         }
 
-        if ( !empty($dica) ) {
-            return view('home', compact('dicas'));
-        } else {
-            return view('home');
-        }
+        return view('home', compact('dicas'));
     }
 
     public function detalhe($id)

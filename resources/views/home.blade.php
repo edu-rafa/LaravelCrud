@@ -30,7 +30,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($dica as $item)
+                                    @foreach($dicas as $item)
                                         <tr>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->modelo }}</td>
@@ -42,7 +42,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $dica->appends(['procurar' => Request::get('procurar')])->render() !!} </div>
+                            <div class="pagination-wrapper"> {!! $dicas->appends(['procurar' => Request::get('procurar')])->render() !!} </div>
                         </div>
 
                     </div>

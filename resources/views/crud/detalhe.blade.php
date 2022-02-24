@@ -20,7 +20,7 @@
                                 @endforeach
                             </ul>
                         @endif
-                         @include ('tips.form')
+                         @include ('crud.form')
 
                     </div>
                 </div>

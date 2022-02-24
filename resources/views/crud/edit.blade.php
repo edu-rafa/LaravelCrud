@@ -7,7 +7,7 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Editar Dica #{{ $dica->id_tips }}</div>
+                    <div class="card-header">Editar Dica #{{ $dicas->id_dica }}</div>
                     <div class="card-body">
                         <a href="{{ url('/') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Voltar</button></a>
                         <br />
@@ -20,10 +20,16 @@
                                 @endforeach
                             </ul>
                         @endif
-                        @include ('crud.form')
-                        <div class="form-group">
+                        <form method="POST" action="{{ url('/admin/posts/update/' . $dicas->id_dica) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                            {{ method_field('PATCH') }}
+                            {{ csrf_field() }}
+
+                            @include ('crud.form')
+                            <div class="form-group">
                                 <input class="btn btn-primary" type="submit" value='Atualizar'>
                             </div>
+
+                        </form>
                     </div>
                 </div>
             </div>

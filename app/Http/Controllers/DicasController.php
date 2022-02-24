@@ -26,8 +26,8 @@ class DicasController extends Controller
 
         foreach($dicas as $dica) {
             
-            if( strlen($dica->tip) > 10 ) {
-                $dica->tip = substr($dica->tip, 0, 10) . '...';
+            if( strlen($dica->dica) > 10 ) {
+                $dica->dica = substr($dica->dica, 0, 10) . '...';
             }
 
         }
@@ -52,11 +52,7 @@ class DicasController extends Controller
         $requestData = $request->all();
         $user = Auth::user();
 
-        $idAuto = Auto::updateOrCreate([
-            'marca'  => $requestData['marca'],
-            'modelo' => $requestData['modelo'],
-            'versao' => $requestData['versao']
-        ],[
+        $idAuto = Auto::Create([
             'marca'     => $requestData['marca']  ?? '',
             'modelo'    => $requestData['modelo']  ?? '',
             'versao'    => $requestData['versao']  ?? '',
@@ -69,17 +65,17 @@ class DicasController extends Controller
             'dica'       => $requestData['dica']
         ]);
 
-        return redirect('/')->with('flash_message', 'Dica Adicionada!');
+        return redirect('/')->with('success', 'Dica Adicionada!');
     }
 
     public function edit($id)
     {
         $user  = Auth::user();
         $dicas = Dicas::PegaDicaPeloID($id);
-        $dicas->autoTypes = TipoVeiculo::get();
+        $dicas->tiposVeiculo = TipoVeiculo::get();
 
         if($dicas->id_fk_user != $user->id) {
-            return redirect('/')->with('flash_message', 'Permissão Negada');
+            return redirect('/')->with('error', 'Permissão Negada');
         }
 
         return view('crud.edit', compact('dicas'));
@@ -88,22 +84,34 @@ class DicasController extends Controller
     public function update(Request $request, $id)
     {
         $requestData = $request->all();
-        $dicas = Dicas::findOrFail($id);
-        $dicas->update($requestData);
+ 
+        $dicas = Dicas::find($id);
+        $auto  = Auto::find($dicas->id_fk_auto);
 
-        return redirect('/')->with('flash_message', 'Dica Atualizada');
+        //Atualiza autos
+        $auto->marca     = $requestData['marca'];
+        $auto->modelo    = $requestData['modelo'];
+        $auto->versao    = $requestData['versao'];
+        $auto->id_fk_tpv = $requestData['tipo'];
+        $auto->save();
+
+        //Atualiza Dica
+        $dicas->dica = $requestData['dica'];
+        $dicas->save();
+
+        return redirect('/')->with('success', 'Dica Atualizada');
     }
 
     public function destroy($id)
     {
         $dicas = Dicas::PegaDicaPeloID($id);
-        $dicas->autoTypes = TipoVeiculo::get();
+        $user  = Auth::user();
 
         if($dicas->id_fk_user != $user->id) {
-            return redirect('/')->with('flash_message', 'Permissão Negada');
+            return redirect('/')->with('error', 'Permissão Negada');
         } else {
             Dicas::destroy($id);
-            return redirect('/')->with('flash_message', 'Dica Deletada');
+            return redirect('/')->with('success', 'Dica Excluida');
         }
 
     }

@@ -31,6 +31,6 @@ class Autos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_veiculos');
+        Schema::dropIfExists('autos');
     }
 }
