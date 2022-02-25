@@ -20,4 +20,3 @@ Seeder
 
 
 Qualquer duvida, fico a disposição!
-12-981868088 (whatsapp)
