@@ -16,10 +16,13 @@ class Dica extends Migration
         Schema::create('dicas', function (Blueprint $table) {
             $table->increments('id_dica');
             $table->unsignedBigInteger('id_fk_user');
-            $table->unsignedBigInteger('id_fk_auto');
-            $table->foreign('id_fk_user')->references('id')->on('users');
-            $table->foreign('id_fk_auto')->references('id_auto')->on('autos');
+            $table->unsignedBigInteger('id_fk_marca');
+            $table->unsignedBigInteger('id_fk_modelo');
+            $table->string('versao');
             $table->text('dica');
+            $table->foreign('id_fk_user')->references('id')->on('users');
+            $table->foreign('id_fk_marca')->references('id_marca')->on('marca');
+            $table->foreign('id_fk_modelo')->references('id_modelo')->on('modelo');
             $table->timestamps();
             });
     }

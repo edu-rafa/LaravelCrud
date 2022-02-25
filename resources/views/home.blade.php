@@ -42,7 +42,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $dicas->appends(['procurar' => Request::get('procurar')])->render() !!} </div>
+                          
                         </div>
 
                     </div>

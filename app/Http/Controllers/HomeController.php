@@ -11,8 +11,7 @@ class HomeController extends Controller
     public function home(Request $request)
     {
         $keyword = $request->get('procurar');
-        $perPage = 25;
-        $dicas   = Dicas::PegaValoresFK($keyword, $perPage, NULL);
+        $dicas   = Dicas::PegaValoresFK($keyword, NULL);
 
         foreach($dicas as $dica) {
 
@@ -27,9 +26,7 @@ class HomeController extends Controller
 
     public function detalhe($id)
     {
-        $dicas = Dicas::PegaDicaPeloID($id);
-        $dicas->tiposVeiculo = TipoVeiculo::get();
-
-        return view('crud.detalhe', compact('dicas'));
+        $data = Dicas::PegaDicaPeloID($id);
+        return view('crud.detalhe', compact('data'));
     }
 }

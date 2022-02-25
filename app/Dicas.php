@@ -11,41 +11,46 @@ class Dicas extends Model
 
     protected $primaryKey = 'id_dica';
 
-    protected $fillable = ['id_fk_user', 'id_fk_auto', 'dica'];
+    protected $fillable = ['id_fk_user', 'id_fk_marca', 'id_fk_modelo', 'versao', 'dica'];
 
-    public static function PegaValoresFK($keyword, $perPage, $idUser)
+    public static function PegaValoresFK($keyword, $idUser)
     {
-        $dicas = DB::table('dicas as t')
-            ->select('t.dica', 'usr.name', 'at.modelo', 't.id_dica')
+        $data = DB::table('dicas as t')
+            ->select('t.dica', 'usr.name', 'mod.modelo', 't.id_dica')
             ->join('users as usr', 'usr.id', '=', 't.id_fk_user')
-            ->join('autos as at', 'at.id_auto', '=', 't.id_fk_auto')
-            ->join('tipo_veiculos as tp', 'tp.id_tpv', '=', 'at.id_fk_tpv');
+            ->join('modelos as mod', 't.id_fk_modelo', '=', 'mod.id_modelo')
+            ->join('marcas as m', 'm.id_marca', '=', 't.id_fk_marca');
 
         if (!empty($idUser)) {
-            $dicas->where('t.id_fk_user', $idUser);
+            $data->where('t.id_fk_user', $idUser);
         }
 
         if (!empty($keyword)) {
-            $dicas->where('at.modelo', 'LIKE', "%$keyword%")
-                ->orWhere('at.marca', 'LIKE', "%$keyword%")
-                ->orWhere('tp.tipo', 'LIKE', "%$keyword%")
-                ->orWhere('at.versao', 'LIKE', "%$keyword%");
+            $data->where('mod.modelo', 'LIKE', "%$keyword%")
+                ->orWhere('mod.tipo', 'LIKE', "%$keyword%")
+                ->orWhere('m.marca', 'LIKE', "%$keyword%")
+                ->orWhere('t.versao', 'LIKE', "%$keyword%");
         }
 
-        $dicas = $dicas->orderBy('t.id_dica', 'desc')->paginate($perPage);
-        return $dicas;
+        $data = $data->orderBy('t.id_dica', 'desc')->get();
+
+        return $data;
     }
 
     public static function PegaDicaPeloID($id)
     {
-        $dicas = DB::table('dicas as t')
-            ->select('t.dica', 'at.modelo', 'at.marca', 'at.versao', 't.id_dica', 't.id_fk_user', 'tp.tipo','tp.id_tpv')
+        $data = DB::table('dicas as t')
+            ->select(
+                't.dica', 'mod.modelo', 'm.marca', 
+                'm.id_marca', 't.versao', 't.id_dica', 
+                't.id_fk_user', 'mod.tipo', 'mod.id_modelo'
+            )
             ->join('users as usr', 'usr.id', '=', 't.id_fk_user')
-            ->join('autos as at', 'at.id_auto', '=', 't.id_fk_auto')
-            ->join('tipo_veiculos as tp', 'tp.id_tpv', '=', 'at.id_fk_tpv')
+            ->join('modelos as mod', 't.id_fk_modelo', '=', 'mod.id_modelo')
+            ->join('marcas as m', 'm.id_marca', '=', 't.id_fk_marca')
             ->where('t.id_dica', $id)
             ->first();
             
-        return $dicas;
+        return $data;
     }
 }

@@ -19,5 +19,7 @@ Route::post('/admin/posts/store','DicasController@store');
 Route::get('/admin/posts/edit/{id}', 'DicasController@edit');
 Route::patch('/admin/posts/update/{id}','DicasController@update');
 Route::delete('/admin/posts/destroy/{id}', 'DicasController@destroy');
+Route::get('/ajaxmarcas/{id}', 'ModeloController@PegaModelosPorId');
+Route::get('/ajaxmodelo/{id}', 'ModeloController@PegaTipoPeloId');
 Auth::routes();
 

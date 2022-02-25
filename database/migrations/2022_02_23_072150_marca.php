@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TipoVeiculo extends Migration
+class Marca extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class TipoVeiculo extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_veiculos', function (Blueprint $table) {
-            $table->increments('id_tpv');
-            $table->string('tipo');
-            $table->timestamp('created_at')->nullable();
+        Schema::create('marcas', function (Blueprint $table) {
+            $table->increments('id_marca');
+            $table->string('marca');
         });
     }
 
@@ -27,6 +26,6 @@ class TipoVeiculo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_veiculos');
+        Schema::dropIfExists('marcas');
     }
 }
